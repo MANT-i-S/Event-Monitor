@@ -43,8 +43,13 @@ class EventsTableViewController: UITableViewController {
                                     print("Location is \(venueDict["display_location"]!)")
                                 }
                                 if let performersArray = dictionary["performers"] as? [Any] {
-                                    if let performerDict = performersArray[0] as? [String:Any] {
-                                        print("Picture url is \(performerDict["image"]!)") // Yeah I know there is a decodable method of parsing, but I couldn't figure it out so here we are... manual parsing complete xD
+                                    for performer in performersArray {
+                                        if let performerDict = performer as? [String:Any] {
+                                            if performerDict["image"] != nil {
+                                                print("Picture url is \(performerDict["image"]!)")
+                                                break
+                                            }
+                                        }
                                     }
                                 }
                             }
