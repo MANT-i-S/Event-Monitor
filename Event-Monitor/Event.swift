@@ -8,8 +8,9 @@
 import Foundation
 
 struct Event: Codable {
-    var name: String
-    var display_location: String
-    var datetime_utc: String //probably type Date
-    var image: String
+    var id: String = ""
+    var title: String = ""
+    var displayLocation: String = ""
+    var localDateTime: String = ""
+    var image: String = ""
 }

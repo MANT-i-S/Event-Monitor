@@ -17,47 +17,11 @@ class EventTableViewCell: UITableViewCell {
 }
 
 class EventsTableViewController: UITableViewController {
-    
-    var myEvents = [Event]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let urlString = "https://api.seatgeek.com/2/events?client_id=MjE5NzM2NTl8MTYyMTU1MTkxNS4yMTQ2MTM0&client_secret=22570c25d57fe1c1b3a3727212294b465f81de226963cca9abde8158bbbda8d4&q=football"
-
-        if let url = URL(string: urlString) {
-            if let data = try? Data(contentsOf: url) {
-                let json = try? JSONSerialization.jsonObject(with: data, options: [])
-                //print(json!)
-                if let eventDictionary = json as? [String: Any] { // make this array. then try to access event in a loop.
-                    if let array = eventDictionary["events"] as? [Any] {
-                        print("Current number of events = \(array.count)")
-                        for event in array {
-                            if let dictionary = event as? [String:Any] {
-                                print("Id of this event is \(dictionary["id"]!)")
-                                print("Name of this event is \(dictionary["title"]!)")
-                                let date = String(describing: type(of: (dictionary["datetime_local"]!)))
-                                print("Date is type of \(date)")
-                                print("Date time \(dictionary["datetime_local"]!)")
-                                if let venueDict = dictionary["venue"] as? [String:Any] {
-                                    print("Location is \(venueDict["display_location"]!)")
-                                }
-                                if let performersArray = dictionary["performers"] as? [Any] {
-                                    for performer in performersArray {
-                                        if let performerDict = performer as? [String:Any] {
-                                            if performerDict["image"] != nil {
-                                                print("Picture url is \(performerDict["image"]!)")
-                                                break
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        var eventMonitor = EventMonitor()
+        eventMonitor.getDataFrom()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -84,16 +48,16 @@ class EventsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myEvents.count
+        return 5
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
         if let myTVC = cell as? EventTableViewCell {
-            myTVC.nameLabel?.text = myEvents[indexPath.row].name
-            myTVC.locationLabel?.text = myEvents[indexPath.row].display_location
-            myTVC.dateLabel?.text = myEvents[indexPath.row].datetime_utc
+//            myTVC.nameLabel?.text = myEvents[indexPath.row].name
+//            myTVC.locationLabel?.text = myEvents[indexPath.row].display_location
+//            myTVC.dateLabel?.text = myEvents[indexPath.row].datetime_utc
             //myTVC.imageLabel?.image = UIImage(named: "events[indexPath.row].isoCode")
         }
         
