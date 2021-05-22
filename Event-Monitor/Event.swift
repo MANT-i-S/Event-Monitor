@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct Event {
-    var isoCode: String
+struct Event: Codable {
     var name: String
+    var display_location: String
+    var datetime_utc: String //probably type Date
+    var image: String
 }

@@ -18,23 +18,42 @@ class EventTableViewCell: UITableViewCell {
 
 class EventsTableViewController: UITableViewController {
     
-    let events = [
-        Event(isoCode: "huge22", name: "Austria"),
-        Event(isoCode: "huge22", name: "Belgium"),
-        Event(isoCode: "huge22", name: "Germany"),
-        Event(isoCode: "huge22", name: "Greece"),
-        Event(isoCode: "huge22", name: "France"),
-    ]
+    var myEvents = [Event]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let urlString = "https://api.seatgeek.com/2/events?client_id=MjE5NzM2NTl8MTYyMTU1MTkxNS4yMTQ2MTM0&client_secret=22570c25d57fe1c1b3a3727212294b465f81de226963cca9abde8158bbbda8d4"
 
+        if let url = URL(string: urlString) {
+            if let data = try? Data(contentsOf: url) {
+                let json = try? JSONSerialization.jsonObject(with: data, options: [])
+                //print(json!)
+                if let eventDictionary = json as? [String: Any] { // make this array. then try to access event in a loop.
+                    if let dictionary = eventDictionary["events"] as? [String: Any] {
+                        print(dictionary) // Nested dictionary or array?
+                    }
+                }
+            }
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+//    func parse(json: Data) {
+//        let decoder = JSONDecoder()
+//
+//        do {
+//            let jsonEvents = try decoder.decode(Events.self, from: json)
+//            myEvents = jsonEvents.events
+//            tableView.reloadData()
+//        } catch {
+//            print("Error in parsing JSON data")
+//        }
+//    }
 
     // MARK: - Table view data source
 
@@ -43,19 +62,19 @@ class EventsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return events.count
+        return myEvents.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
         if let myTVC = cell as? EventTableViewCell {
-            myTVC.nameLabel?.text = events[indexPath.row].name
-            myTVC.locationLabel?.text = events[indexPath.row].isoCode
-            myTVC.dateLabel?.text = events[indexPath.row].isoCode
-            myTVC.imageLabel?.image = UIImage(named: events[indexPath.row].isoCode)
+            myTVC.nameLabel?.text = myEvents[indexPath.row].name
+            myTVC.locationLabel?.text = myEvents[indexPath.row].display_location
+            myTVC.dateLabel?.text = myEvents[indexPath.row].datetime_utc
+            //myTVC.imageLabel?.image = UIImage(named: "events[indexPath.row].isoCode")
         }
-
+        
         return cell
     }
     
