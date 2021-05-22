@@ -23,15 +23,32 @@ class EventsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let urlString = "https://api.seatgeek.com/2/events?client_id=MjE5NzM2NTl8MTYyMTU1MTkxNS4yMTQ2MTM0&client_secret=22570c25d57fe1c1b3a3727212294b465f81de226963cca9abde8158bbbda8d4"
+        let urlString = "https://api.seatgeek.com/2/events?client_id=MjE5NzM2NTl8MTYyMTU1MTkxNS4yMTQ2MTM0&client_secret=22570c25d57fe1c1b3a3727212294b465f81de226963cca9abde8158bbbda8d4&q=football"
 
         if let url = URL(string: urlString) {
             if let data = try? Data(contentsOf: url) {
                 let json = try? JSONSerialization.jsonObject(with: data, options: [])
                 //print(json!)
                 if let eventDictionary = json as? [String: Any] { // make this array. then try to access event in a loop.
-                    if let dictionary = eventDictionary["events"] as? [String: Any] {
-                        print(dictionary) // Nested dictionary or array?
+                    if let array = eventDictionary["events"] as? [Any] {
+                        print("Current number of events = \(array.count)")
+                        for event in array {
+                            if let dictionary = event as? [String:Any] {
+                                print("Id of this event is \(dictionary["id"]!)")
+                                print("Name of this event is \(dictionary["title"]!)")
+                                let date = String(describing: type(of: (dictionary["datetime_local"]!)))
+                                print("Date is type of \(date)")
+                                print("Date time \(dictionary["datetime_local"]!)")
+                                if let venueDict = dictionary["venue"] as? [String:Any] {
+                                    print("Location is \(venueDict["display_location"]!)")
+                                }
+                                if let performersArray = dictionary["performers"] as? [Any] {
+                                    if let performerDict = performersArray[0] as? [String:Any] {
+                                        print("Picture url is \(performerDict["image"]!)") // Yeah I know there is a decodable method of parsing, but I couldn't figure it out so here we are... manual parsing complete xD
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
