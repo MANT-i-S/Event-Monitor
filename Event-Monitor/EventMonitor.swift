@@ -23,47 +23,17 @@ class EventMonitor {
     func parse(json: Data) {
         
         let newJson = try? JSONSerialization.jsonObject(with: json, options: [])
-        if let eventDictionary = newJson as? [String: Any] {
-            if let array = eventDictionary["events"] as? [Any] {
-                print("Current number of events = \(array.count)")
-                for index in array.indices {
-                    if let dictionary = array[index] as? [String:Any] {
-                        events[index].id = dictionary["id"] as! String //TODO figure out how to cast from Any...
-                        print("Id of this event is \(dictionary["id"]!)")
-                        //events[index].title = dictionary["title"] as! String
-                        print("Name of this event is \(dictionary["title"]!)")
-                        let date = String(describing: type(of: (dictionary["datetime_local"]!)))
-                        print("Date is type of \(date)")
-                        
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-                        let datetime = dateFormatter.date(from: dictionary["datetime_local"] as! String)
-                        
-                        dateFormatter.dateFormat = "EEEE, d MMM yyyy h:mm a"
-                        let datelabel = dateFormatter.string(from: datetime!)
-                        print("Datelabel time looks like this \(datelabel)")
-                        print("Formated time looks like this \(datetime)")
-                        
-                        print("Date time \(dictionary["datetime_local"]!)")
-                        if let venueDict = dictionary["venue"] as? [String:Any] {
-                            print("Location is \(venueDict["display_location"]!)")
-                        }
-                        if let performersArray = dictionary["performers"] as? [Any] {
-                            for performer in performersArray {
-                                if let performerDict = performer as? [String:Any] {
-                                    if performerDict["image"] != nil {
-                                        print("Picture url is \(performerDict["image"]!)")
-                                        break
-                                    }
-                                }
-                            }
-                        }
-                    }
+        if let eventDictionary = newJson as? [String: Any],
+           let eventsArray = eventDictionary["events"] as? [Any] {
+            print("Current number of events = \(eventsArray.count)")
+            for event in eventsArray {
+                if let eventDict = event as? [String:Any],
+                   let tempEvent = Event(dictionary: eventDict) {
+                    events.append(tempEvent)
+                    print("Current event id = \(tempEvent.id)")
+                    print(tempEvent)
                 }
             }
         }
     }
-    
 }

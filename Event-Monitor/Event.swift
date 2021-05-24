@@ -9,35 +9,50 @@ import Foundation
 
 struct Event {
     
-    var id: String
+    var id: Int
     var title: String
     var displayLocation: String
-    var displayDateTime: String
-    var image: String
+    var displayDateTime: String?
+    var dateTime: Date?
+    var image: URL?
     
-    init? (json event: [String: Any]) {
-        guard let id = event["id"] as? String,
+    init? (dictionary event: [String: Any]) {
+        guard let id = event["id"] as? Int,
                     let title = event["title"] as? String,
-                    let dateTime = event["datetime_local"], //TODO format this before storing as property
+                    let dateTimeStr = event["datetime_local"] as? String,
                     let venue = event["venue"] as? [String: Any],
                     let location = venue["display_location"] as? String,
-                    let performers = event["performers"] as? [Any],
-                    let image
+                    let performers = event["performers"] as? [Any]
                 else {
                     return nil
                 }
         
-        var meals: Set<Meal> = []
-        for string in mealsJSON {
-            guard let meal = Meal(rawValue: string) else {
-                return nil
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        if let dateTime = dateFormatter.date(from: dateTimeStr) {
+            self.dateTime = dateTime
+            dateFormatter.dateFormat = "EEEE, d MMM yyyy h:mm a"
+            let displayDateTime = dateFormatter.string(from: dateTime)
+            self.displayDateTime = displayDateTime
+        } else {
+            self.dateTime = nil
+            self.displayDateTime = nil
+        }
+        
+        for performer in performers {
+            if let performerDict = performer as? [String: Any],
+               let imageStr = performerDict["image"] as? String? {
+            if imageStr != nil {
+                self.image = URL(string: imageStr!)
+                break
+                }
             }
-
-            meals.insert(meal)
         }
 
-        self.name = name
-        self.coordinates = (latitude, longitude)
-        self.meals = meals
+        self.id = id
+        self.title = title
+        self.displayLocation = location
     }
 }
