@@ -7,10 +7,37 @@
 
 import Foundation
 
-struct Event: Codable {
-    var id: String = ""
-    var title: String = ""
-    var displayLocation: String = ""
-    var localDateTime: String = ""
-    var image: String = ""
+struct Event {
+    
+    var id: String
+    var title: String
+    var displayLocation: String
+    var displayDateTime: String
+    var image: String
+    
+    init? (json event: [String: Any]) {
+        guard let id = event["id"] as? String,
+                    let title = event["title"] as? String,
+                    let dateTime = event["datetime_local"], //TODO format this before storing as property
+                    let venue = event["venue"] as? [String: Any],
+                    let location = venue["display_location"] as? String,
+                    let performers = event["performers"] as? [Any],
+                    let image
+                else {
+                    return nil
+                }
+        
+        var meals: Set<Meal> = []
+        for string in mealsJSON {
+            guard let meal = Meal(rawValue: string) else {
+                return nil
+            }
+
+            meals.insert(meal)
+        }
+
+        self.name = name
+        self.coordinates = (latitude, longitude)
+        self.meals = meals
+    }
 }

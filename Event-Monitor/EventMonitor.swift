@@ -28,21 +28,21 @@ class EventMonitor {
                 print("Current number of events = \(array.count)")
                 for index in array.indices {
                     if let dictionary = array[index] as? [String:Any] {
-                        //events[index].id = dictionary["id"] as! String //TODO figure out how to cast from Any...
+                        events[index].id = dictionary["id"] as! String //TODO figure out how to cast from Any...
                         print("Id of this event is \(dictionary["id"]!)")
                         //events[index].title = dictionary["title"] as! String
                         print("Name of this event is \(dictionary["title"]!)")
                         let date = String(describing: type(of: (dictionary["datetime_local"]!)))
                         print("Date is type of \(date)")
                         
-                        let RFC3339DateFormatter = DateFormatter()
-                        RFC3339DateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                        RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-                        let datetime = RFC3339DateFormatter.date(from: dictionary["datetime_local"] as! String)
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+                        let datetime = dateFormatter.date(from: dictionary["datetime_local"] as! String)
                         
-                        RFC3339DateFormatter.dateFormat = "EEEE, d MMM yyyy h:mm a"
-                        let datelabel = RFC3339DateFormatter.string(from: datetime!)
+                        dateFormatter.dateFormat = "EEEE, d MMM yyyy h:mm a"
+                        let datelabel = dateFormatter.string(from: datetime!)
                         print("Datelabel time looks like this \(datelabel)")
                         print("Formated time looks like this \(datetime)")
                         
