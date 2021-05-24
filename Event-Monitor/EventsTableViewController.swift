@@ -18,9 +18,10 @@ class EventTableViewCell: UITableViewCell {
 
 class EventsTableViewController: UITableViewController {
 
+    var eventMonitor = EventMonitor()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        var eventMonitor = EventMonitor()
         eventMonitor.getDataFrom()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -48,17 +49,17 @@ class EventsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return eventMonitor.events.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
         if let myTVC = cell as? EventTableViewCell {
-//            myTVC.nameLabel?.text = myEvents[indexPath.row].name
-//            myTVC.locationLabel?.text = myEvents[indexPath.row].display_location
-//            myTVC.dateLabel?.text = myEvents[indexPath.row].datetime_utc
-            //myTVC.imageLabel?.image = UIImage(named: "events[indexPath.row].isoCode")
+            myTVC.nameLabel?.text = eventMonitor.events[indexPath.row].title
+            myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
+            myTVC.dateLabel?.text = eventMonitor.events[indexPath.row].displayDateTime
+            myTVC.imageLabel?.image = UIImage(named: "huge22")
         }
         
         return cell
