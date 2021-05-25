@@ -50,16 +50,20 @@ class EventsTableViewController: UITableViewController {
             myTVC.imageLabel?.image = UIImage(data: eventMonitor.events[indexPath.row].image!)
             print("Index path row = \(indexPath.row)")
             print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
-            if indexPath.row >= self.eventMonitor.events.count - 5 {
+            if indexPath.row >= self.eventMonitor.events.count - 1 {
                 print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
                 eventMonitor.page += 1
-                eventMonitor.getData()
-                self.tableView.reloadData()
+                let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
+                    textBackgroundQueue.async {
+                        self.eventMonitor.getData()
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
             }
         }
         return cell
     }
-    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
