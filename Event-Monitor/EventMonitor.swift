@@ -28,7 +28,6 @@ struct EventMonitor {
     }
     
     mutating func parse(json: Data) {
-        
         let newJson = try? JSONSerialization.jsonObject(with: json, options: [])
         if let eventDictionary = newJson as? [String: Any],
            let eventsArray = eventDictionary["events"] as? [Any] {

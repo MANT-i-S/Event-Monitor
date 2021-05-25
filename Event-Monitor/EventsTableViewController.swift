@@ -43,16 +43,26 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        eventMonitor.events.removeAll()
-        eventMonitor.searchRequest = "q=" + searchText
+        let searchRequest = searchText.replacingOccurrences(of: " ", with: "+")
+        eventMonitor.searchRequest = "q=" + searchRequest
+        eventMonitor.page = 1
         print("Text from searchbar is \(searchText)")
         let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
             textBackgroundQueue.async {
+                self.eventMonitor.events.removeAll()
                 self.eventMonitor.getData()
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
             }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? EventTableViewCell,
+           let indexPath = tableView.indexPath(for: cell),
+           let seguedToMVC = segue.destination as? DetailsViewController {
+            //seguedToMVC.detailsTitleLabel.text = eventMonitor.events[indexPath.row].title
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

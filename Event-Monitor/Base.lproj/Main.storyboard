@@ -13,7 +13,7 @@
         <scene sceneID="nKE-m7-vmd">
             <objects>
                 <tableViewController id="Zes-vc-0Ka" customClass="EventsTableViewController" customModule="Event_Monitor" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NBy-sc-DZs">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NBy-sc-DZs" customClass="Det">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -76,7 +76,7 @@
                                     <outlet property="imageLabel" destination="IyC-lB-kqX" id="fpu-iZ-SSa"/>
                                     <outlet property="locationLabel" destination="feZ-l6-szv" id="RN5-SC-QsZ"/>
                                     <outlet property="titleLabel" destination="v6A-uY-PyA" id="OU5-BV-WLF"/>
-                                    <segue destination="BYZ-38-t0r" kind="showDetail" identifier="EventCell" id="wO2-f1-gqd"/>
+                                    <segue destination="BYZ-38-t0r" kind="showDetail" identifier="EventCellSegue" id="wO2-f1-gqd"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -93,20 +93,46 @@
             </objects>
             <point key="canvasLocation" x="-778.26086956521749" y="87.723214285714278"/>
         </scene>
-        <!--View Controller-->
+        <!--Details View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Event_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="DetailsViewController" customModule="Event_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jrE-Jg-byd">
+                                <rect key="frame" x="87" y="372" width="240" height="128"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWl-uH-21I">
+                                <rect key="frame" x="62" y="231" width="288" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nWl-uH-21I" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="62" id="0JI-zS-jZx"/>
+                            <constraint firstItem="jrE-Jg-byd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="Aq3-jL-7k7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jrE-Jg-byd" secondAttribute="bottom" constant="308" id="FBJ-jc-RWa"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jrE-Jg-byd" secondAttribute="trailing" constant="87" id="L9p-9V-tfI"/>
+                            <constraint firstItem="jrE-Jg-byd" firstAttribute="top" secondItem="nWl-uH-21I" secondAttribute="bottom" constant="120.5" id="PID-Qc-riT"/>
+                            <constraint firstItem="jrE-Jg-byd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="372" id="eDs-V5-3LV"/>
+                            <constraint firstItem="jrE-Jg-byd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="edu-vE-CAC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nWl-uH-21I" secondAttribute="trailing" constant="64" id="fUu-or-NCM"/>
+                            <constraint firstItem="nWl-uH-21I" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="231" id="jjM-j1-qiB"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="detailsImageLabel" destination="jrE-Jg-byd" id="JW5-jE-r6f"/>
+                        <outlet property="detailsTitleLabel" destination="nWl-uH-21I" id="EVK-he-Vcm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="30" y="89"/>
+            <point key="canvasLocation" x="28.985507246376812" y="88.392857142857139"/>
         </scene>
     </scenes>
     <resources>

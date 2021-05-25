@@ -7,13 +7,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class DetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
-
+    @IBOutlet weak var detailsTitleLabel: UILabel!
+    @IBOutlet weak var detailsImageLabel: UIImageView!
+    
 }
 
