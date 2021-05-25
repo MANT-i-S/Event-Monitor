@@ -9,23 +9,21 @@ import Foundation
 
 struct EventMonitor {
     
-    var events = [Event]()
-    var page = 1
     let urlBase = "https://api.seatgeek.com/2"
     let urlEvents = "/events"
     let clientID = "client_id=MjE5NzM2NTl8MTYyMTU1MTkxNS4yMTQ2MTM0"
     let clientSecret = "client_secret=22570c25d57fe1c1b3a3727212294b465f81de226963cca9abde8158bbbda8d4"
     
-    mutating func getData(query: String = "") {
-        let urlString = "https://api.seatgeek.com/2/events?client_id=MjE5NzM2NTl8MTYyMTU1MTkxNS4yMTQ2MTM0&client_secret=22570c25d57fe1c1b3a3727212294b465f81de226963cca9abde8158bbbda8d4&q=football&page=1"
+    var events = [Event]()
+    var page = 1
+    var searchRequest = ""
+    
+    mutating func getData() {
+        let urlString = urlBase + urlEvents + "?" + clientID + "&" + clientSecret + "&" + searchRequest + "&" + "page=\(page)"
         
-        if let url = URL(string: urlString) {
-            //let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
-            //textBackgroundQueue.async {
-                if let data = try? Data(contentsOf: url) {
-                    parse(json: data)
-                //}
-            }
+        if let url = URL(string: urlString),
+           let data = try? Data(contentsOf: url) {
+            parse(json: data)
         }
     }
     

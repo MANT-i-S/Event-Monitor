@@ -16,13 +16,14 @@ class EventTableViewCell: UITableViewCell {
     
 }
 
-class EventsTableViewController: UITableViewController {
+class EventsTableViewController: UITableViewController, UISearchBarDelegate {
 
     var eventMonitor = EventMonitor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         eventMonitor.getData()
+        searchBar.delegate = self
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -39,6 +40,21 @@ class EventsTableViewController: UITableViewController {
         return eventMonitor.events.count
     }
 
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        eventMonitor.events.removeAll()
+        eventMonitor.searchRequest = "q=" + searchText
+        print("Text from searchbar is \(searchText)")
+        let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
+            textBackgroundQueue.async {
+                self.eventMonitor.getData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
