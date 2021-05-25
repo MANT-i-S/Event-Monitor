@@ -10,9 +10,9 @@ import UIKit
 class EventTableViewCell: UITableViewCell {
     
     @IBOutlet weak var imageLabel: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dateTimeLabel: UILabel!
     
 }
 
@@ -22,26 +22,13 @@ class EventsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        eventMonitor.getDataFrom()
+        eventMonitor.getData()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-//    func parse(json: Data) {
-//        let decoder = JSONDecoder()
-//
-//        do {
-//            let jsonEvents = try decoder.decode(Events.self, from: json)
-//            myEvents = jsonEvents.events
-//            tableView.reloadData()
-//        } catch {
-//            print("Error in parsing JSON data")
-//        }
-//    }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -55,13 +42,22 @@ class EventsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
-        if let myTVC = cell as? EventTableViewCell {
-            myTVC.nameLabel?.text = eventMonitor.events[indexPath.row].title
-            myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
-            myTVC.dateLabel?.text = eventMonitor.events[indexPath.row].displayDateTime
-            myTVC.imageLabel?.image = UIImage(named: "huge22")
-        }
         
+        if let myTVC = cell as? EventTableViewCell {
+            print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
+            myTVC.titleLabel?.text = eventMonitor.events[indexPath.row].title
+            myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
+            myTVC.dateTimeLabel?.text = eventMonitor.events[indexPath.row].displayDateTime
+            myTVC.imageLabel?.image = UIImage(data: eventMonitor.events[indexPath.row].image!)
+            print("Index path row = \(indexPath.row)")
+            print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
+            if indexPath.row >= self.eventMonitor.events.count - 1 {
+                print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
+                eventMonitor.page += 1
+                eventMonitor.getData()
+                self.tableView.reloadData()
+            }
+        }
         return cell
     }
     

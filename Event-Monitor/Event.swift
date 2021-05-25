@@ -14,7 +14,7 @@ struct Event {
     var displayLocation: String
     var displayDateTime: String?
     var dateTime: Date?
-    var image: URL?
+    var image: Data?
     
     init? (dictionary event: [String: Any]) {
         guard let id = event["id"] as? Int,
@@ -27,6 +27,7 @@ struct Event {
                     return nil
                 }
         
+        //Take datetime from format in json and reformat to user friendly format.
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -41,11 +42,12 @@ struct Event {
             self.displayDateTime = nil
         }
         
+        //Go through performers and use first existing image.
         for performer in performers {
             if let performerDict = performer as? [String: Any],
                let imageStr = performerDict["image"] as? String? {
             if imageStr != nil {
-                self.image = URL(string: imageStr!)
+                self.image = try? Data(contentsOf: URL(string: imageStr!)!) //TODO get data of image
                 break
                 }
             }
