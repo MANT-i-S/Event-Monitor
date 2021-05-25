@@ -42,7 +42,6 @@ class EventsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
-        
         if let myTVC = cell as? EventTableViewCell {
             print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
             myTVC.titleLabel?.text = eventMonitor.events[indexPath.row].title
@@ -51,7 +50,7 @@ class EventsTableViewController: UITableViewController {
             myTVC.imageLabel?.image = UIImage(data: eventMonitor.events[indexPath.row].image!)
             print("Index path row = \(indexPath.row)")
             print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
-            if indexPath.row >= self.eventMonitor.events.count - 1 {
+            if indexPath.row >= self.eventMonitor.events.count - 5 {
                 print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
                 eventMonitor.page += 1
                 eventMonitor.getData()

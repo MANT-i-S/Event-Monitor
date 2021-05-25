@@ -47,7 +47,7 @@ struct Event {
             if let performerDict = performer as? [String: Any],
                let imageStr = performerDict["image"] as? String? {
             if imageStr != nil {
-                self.image = try? Data(contentsOf: URL(string: imageStr!)!) //TODO get data of image
+                self.image = try? Data(contentsOf: URL(string: imageStr!)!)
                 break
                 }
             }
