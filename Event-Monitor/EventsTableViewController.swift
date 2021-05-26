@@ -24,13 +24,25 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
         super.viewDidLoad()
         eventMonitor.getData()
         searchBar.delegate = self
+        navigationController?.isNavigationBarHidden = true
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    // MARK: - Table view data source
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Hide the navigation bar for current view controller
+        self.navigationController?.isNavigationBarHidden = true;
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Show the navigation bar on other view controllers
+       self.navigationController?.isNavigationBarHidden = false;
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -64,14 +76,8 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
                 if let cell = sender as? EventTableViewCell,
                    let indexPath = tableView.indexPath(for: cell),
                    let seguedToMVC = segue.destination as? DetailsViewController {
-                    seguedToMVC.detailsTitleText = eventMonitor.events[indexPath.row].title
-                    if let imageData = eventMonitor.events[indexPath.row].image {
-                        seguedToMVC.detailsImage = UIImage(data: imageData)!
-                    } else {
-                        seguedToMVC.detailsImage = UIImage(named: "noImagePlaceholder")!
-                    }
-                    seguedToMVC.detailsTimeDateText = eventMonitor.events[indexPath.row].displayDateTime!
-                    seguedToMVC.detailsLocationText = eventMonitor.events[indexPath.row].displayLocation
+                    seguedToMVC.eventMonitor = self.eventMonitor
+                    seguedToMVC.eventIndex = indexPath.row
                 }
             default: break
             }

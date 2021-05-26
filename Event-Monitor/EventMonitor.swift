@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EventMonitor {
+class EventMonitor {
     
     let urlBase = "https://api.seatgeek.com/2"
     let urlEvents = "/events"
@@ -18,7 +18,7 @@ struct EventMonitor {
     var page = 1
     var searchRequest = ""
     
-    mutating func getData() {
+    func getData() {
         let urlString = urlBase + urlEvents + "?" + clientID + "&" + clientSecret + "&" + searchRequest + "&" + "page=\(page)"
         
         if let url = URL(string: urlString),
@@ -27,7 +27,7 @@ struct EventMonitor {
         }
     }
     
-    mutating func parse(json: Data) {
+    func parse(json: Data) {
         let newJson = try? JSONSerialization.jsonObject(with: json, options: [])
         if let eventDictionary = newJson as? [String: Any],
            let eventsArray = eventDictionary["events"] as? [Any] {

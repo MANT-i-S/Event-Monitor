@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15513CDA265EF49F0060CEE8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15513CD9265EF49F0060CEE8 /* CustomImageView.swift */; };
+		15513CDB265EF49F0060CEE8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15513CD9265EF49F0060CEE8 /* CustomImageView.swift */; };
+		15513CDC265EF49F0060CEE8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15513CD9265EF49F0060CEE8 /* CustomImageView.swift */; };
 		1570478A265965DC00C0D433 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15704789265965DC00C0D433 /* EventMonitor.swift */; };
 		1570478B265965DC00C0D433 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15704789265965DC00C0D433 /* EventMonitor.swift */; };
 		1570478C265965DC00C0D433 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15704789265965DC00C0D433 /* EventMonitor.swift */; };
@@ -44,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15513CD9265EF49F0060CEE8 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		15704789265965DC00C0D433 /* EventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
 		157C2229265828E300201DC3 /* Event-Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Event-Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		157C222C265828E300201DC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 				15704789265965DC00C0D433 /* EventMonitor.swift */,
 				157C225D26582C6000201DC3 /* EventsTableViewController.swift */,
 				157C2230265828E300201DC3 /* DetailsController.swift */,
+				15513CD9265EF49F0060CEE8 /* CustomImageView.swift */,
 				157C2232265828E300201DC3 /* Main.storyboard */,
 				157C223A265828E400201DC3 /* Info.plist */,
 				157C225C265828F800201DC3 /* SupportingFiles */,
@@ -284,6 +289,7 @@
 				157C2231265828E300201DC3 /* DetailsController.swift in Sources */,
 				157C222D265828E300201DC3 /* AppDelegate.swift in Sources */,
 				157C225E26582C6000201DC3 /* EventsTableViewController.swift in Sources */,
+				15513CDA265EF49F0060CEE8 /* CustomImageView.swift in Sources */,
 				1570478A265965DC00C0D433 /* EventMonitor.swift in Sources */,
 				157C222F265828E300201DC3 /* SceneDelegate.swift in Sources */,
 				157C226226582CE000201DC3 /* Event.swift in Sources */,
@@ -298,6 +304,7 @@
 				157C225F26582C6000201DC3 /* EventsTableViewController.swift in Sources */,
 				157C226326582CE000201DC3 /* Event.swift in Sources */,
 				157C2244265828E400201DC3 /* Event_MonitorTests.swift in Sources */,
+				15513CDB265EF49F0060CEE8 /* CustomImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +316,7 @@
 				157C226026582C6000201DC3 /* EventsTableViewController.swift in Sources */,
 				157C226426582CE000201DC3 /* Event.swift in Sources */,
 				157C224F265828E400201DC3 /* Event_MonitorUITests.swift in Sources */,
+				15513CDC265EF49F0060CEE8 /* CustomImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

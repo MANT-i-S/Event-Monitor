@@ -15,6 +15,7 @@ struct Event {
     var displayDateTime: String?
     var dateTime: Date?
     var image: Data?
+    var isFavorite = false
     
     init? (dictionary event: [String: Any]) {
         guard let id = event["id"] as? Int,
@@ -52,9 +53,13 @@ struct Event {
                 }
             }
         }
-
+        
         self.id = id
         self.title = title
         self.displayLocation = location
+        let isTrue = UserDefaults.standard.bool(forKey: String(id))
+        if isTrue == true {
+            self.isFavorite = true
+        }
     }
 }

@@ -39,19 +39,19 @@
                                                 <stackView opaque="NO" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" axis="vertical" distribution="equalSpacing" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="l0P-xI-Wgl">
                                                     <rect key="frame" x="191" y="25" width="183" height="70.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TitleLabel" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6A-uY-PyA">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="TitleLabel" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6A-uY-PyA">
                                                             <rect key="frame" x="0.0" y="0.0" width="85.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LocationLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="feZ-l6-szv">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="LocationLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="feZ-l6-szv">
                                                             <rect key="frame" x="0.0" y="32" width="79.5" height="14.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DateTimeLabel" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8VT-Vk-iP4">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="DateTimeLabel" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8VT-Vk-iP4">
                                                             <rect key="frame" x="0.0" y="54.5" width="90" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <nil key="textColor"/>
@@ -102,7 +102,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="kfG-26-1Fe">
+                            <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="kfG-26-1Fe">
                                 <rect key="frame" x="8" y="88" width="398" height="206"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DetailsTitleLabel" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWl-uH-21I">
@@ -127,9 +127,6 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="jrE-Jg-byd" firstAttribute="leading" secondItem="kfG-26-1Fe" secondAttribute="leading" constant="79" id="z8Y-X3-QMv"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -142,9 +139,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oo9-Fv-QT4">
-                        <barButtonItem key="rightBarButtonItem" image="heart" catalog="system" id="JbP-A1-SYv">
+                        <barButtonItem key="rightBarButtonItem" image="heart" catalog="system" id="LN6-hw-uif">
                             <connections>
-                                <action selector="favoriteButtonTouch:" destination="BYZ-38-t0r" id="JnP-03-mQa"/>
+                                <action selector="favoriteButtonTouch:" destination="BYZ-38-t0r" id="x1g-lG-nSH"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -164,7 +161,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JqO-dI-rcy" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" backIndicatorImage="chevron.backward" catalog="system" id="jB0-Ah-31T">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="chevron.backward" catalog="system" id="jB0-Ah-31T">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
