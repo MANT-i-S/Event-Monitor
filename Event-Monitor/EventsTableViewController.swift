@@ -36,6 +36,7 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
         super.viewWillAppear(animated)
         // Hide the navigation bar for current view controller
         self.navigationController?.isNavigationBarHidden = true;
+        self.tableView.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,6 +85,15 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
+    private func drawLogoIn(_ image: UIImage, _ logo: UIImage, position: CGPoint) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: image.size)
+        return renderer.image { context in
+            image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+            //logo.'
+            logo.draw(in: CGRect(origin: position, size: logo.size))
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
@@ -96,23 +106,23 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
             myTVC.titleLabel?.text = eventMonitor.events[indexPath.row].title
             myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
             myTVC.dateTimeLabel?.text = eventMonitor.events[indexPath.row].displayDateTime
+            
+            var displayImage = UIImage(named: "noImagePlaceholder")
+            
             if let imageData = eventMonitor.events[indexPath.row].image {
-                //myTVC.imageLabel?.image = UIImage(data: imageData)
-                
-                let newImage = UIImage(data: imageData)!
-                UIGraphicsBeginImageContext(newImage.size)
-                newImage.draw(at: CGPoint.zero)
-                let heart = UIImage(named: "heart")
-                var imageView = UIImageView(image: heart) //TODO this looks terrible, find out the nice way to mark event as favorite.
-                imageView.setImageColor(color: UIColor.red)
-                imageView.draw(CGRect(x: 0, y: 0, width: 50, height: 50))
-                let newerImage = UIGraphicsGetImageFromCurrentImageContext()
-                     UIGraphicsEndImageContext()
-                myTVC.imageLabel?.image = newerImage
-                
-            } else {
-                myTVC.imageLabel?.image = UIImage(named: "noImagePlaceholder")
+                if let newImage = UIImage(data: imageData) {
+                    displayImage = newImage
+                }
             }
+            if eventMonitor.events[indexPath.row].isFavorite == true {
+                let heartConfig = UIImage.SymbolConfiguration(pointSize: 45, weight: .black)
+                if let systemHeartImage = UIImage(systemName: "heart.fill", withConfiguration: heartConfig)?.withTintColor(UIColor.red) {
+                    displayImage = drawLogoIn(displayImage!, systemHeartImage, position: CGPoint(x:0,y:0))
+                }
+            }
+            
+            myTVC.imageLabel?.image = displayImage
+            
             print("Index path row = \(indexPath.row)")
             print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
             if indexPath.row == self.eventMonitor.events.count - 1 {
@@ -174,13 +184,4 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     */
 
-}
-
-extension UIImageView {
-  func setImageColor(color: UIColor) {
-    let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
-    self.image = templateImage
-    self.tintColor = color
-    self.backgroundColor = .none
-  }
 }
