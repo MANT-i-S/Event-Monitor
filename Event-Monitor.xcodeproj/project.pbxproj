@@ -27,6 +27,9 @@
 		157C226226582CE000201DC3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C226126582CE000201DC3 /* Event.swift */; };
 		157C226326582CE000201DC3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C226126582CE000201DC3 /* Event.swift */; };
 		157C226426582CE000201DC3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157C226126582CE000201DC3 /* Event.swift */; };
+		15F1573D266047DB00404B5A /* GlobalEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F1573C266047DB00404B5A /* GlobalEventViewController.swift */; };
+		15F1573E266047DB00404B5A /* GlobalEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F1573C266047DB00404B5A /* GlobalEventViewController.swift */; };
+		15F1573F266047DB00404B5A /* GlobalEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F1573C266047DB00404B5A /* GlobalEventViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,7 @@
 		157C2250265828E400201DC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		157C225D26582C6000201DC3 /* EventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableViewController.swift; sourceTree = "<group>"; };
 		157C226126582CE000201DC3 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		15F1573C266047DB00404B5A /* GlobalEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEventViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,7 @@
 			children = (
 				157C226126582CE000201DC3 /* Event.swift */,
 				15704789265965DC00C0D433 /* EventMonitor.swift */,
+				15F1573C266047DB00404B5A /* GlobalEventViewController.swift */,
 				157C225D26582C6000201DC3 /* EventsTableViewController.swift */,
 				157C2230265828E300201DC3 /* DetailsController.swift */,
 				15513CD9265EF49F0060CEE8 /* CustomImageView.swift */,
@@ -290,6 +295,7 @@
 				157C222D265828E300201DC3 /* AppDelegate.swift in Sources */,
 				157C225E26582C6000201DC3 /* EventsTableViewController.swift in Sources */,
 				15513CDA265EF49F0060CEE8 /* CustomImageView.swift in Sources */,
+				15F1573D266047DB00404B5A /* GlobalEventViewController.swift in Sources */,
 				1570478A265965DC00C0D433 /* EventMonitor.swift in Sources */,
 				157C222F265828E300201DC3 /* SceneDelegate.swift in Sources */,
 				157C226226582CE000201DC3 /* Event.swift in Sources */,
@@ -304,6 +310,7 @@
 				157C225F26582C6000201DC3 /* EventsTableViewController.swift in Sources */,
 				157C226326582CE000201DC3 /* Event.swift in Sources */,
 				157C2244265828E400201DC3 /* Event_MonitorTests.swift in Sources */,
+				15F1573E266047DB00404B5A /* GlobalEventViewController.swift in Sources */,
 				15513CDB265EF49F0060CEE8 /* CustomImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,6 +323,7 @@
 				157C226026582C6000201DC3 /* EventsTableViewController.swift in Sources */,
 				157C226426582CE000201DC3 /* Event.swift in Sources */,
 				157C224F265828E400201DC3 /* Event_MonitorUITests.swift in Sources */,
+				15F1573F266047DB00404B5A /* GlobalEventViewController.swift in Sources */,
 				15513CDC265EF49F0060CEE8 /* CustomImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

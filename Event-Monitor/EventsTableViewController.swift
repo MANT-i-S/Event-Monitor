@@ -23,8 +23,6 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         eventMonitor.getData()
-        searchBar.delegate = self
-        navigationController?.isNavigationBarHidden = true
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -34,15 +32,7 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Hide the navigation bar for current view controller
-        self.navigationController?.isNavigationBarHidden = true;
         self.tableView.reloadData()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // Show the navigation bar on other view controllers
-       self.navigationController?.isNavigationBarHidden = false;
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -51,23 +41,6 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return eventMonitor.events.count
-    }
-
-    @IBOutlet weak var searchBar: UISearchBar!
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        let searchRequest = searchText.replacingOccurrences(of: " ", with: "+")
-        eventMonitor.searchRequest = "q=" + searchRequest
-        eventMonitor.page = 1
-        self.eventMonitor.events.removeAll()
-        print("Text from searchbar is \(searchText)")
-        let textBackgroundQueue = DispatchQueue.global(qos: .userInteractive)
-            textBackgroundQueue.async {
-                self.eventMonitor.getData()
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -89,7 +62,6 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
         let renderer = UIGraphicsImageRenderer(size: image.size)
         return renderer.image { context in
             image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
-            //logo.'
             logo.draw(in: CGRect(origin: position, size: logo.size))
         }
     }
