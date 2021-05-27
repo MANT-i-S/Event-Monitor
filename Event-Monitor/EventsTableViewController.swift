@@ -69,7 +69,7 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
             }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {//TODO Figure out how segue from table to details pasing information.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
             case "EventCellSegue":
@@ -97,7 +97,19 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
             myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
             myTVC.dateTimeLabel?.text = eventMonitor.events[indexPath.row].displayDateTime
             if let imageData = eventMonitor.events[indexPath.row].image {
-                myTVC.imageLabel?.image = UIImage(data: imageData)
+                //myTVC.imageLabel?.image = UIImage(data: imageData)
+                
+                let newImage = UIImage(data: imageData)!
+                UIGraphicsBeginImageContext(newImage.size)
+                newImage.draw(at: CGPoint.zero)
+                let heart = UIImage(named: "heart")
+                var imageView = UIImageView(image: heart) //TODO this looks terrible, find out the nice way to mark event as favorite.
+                imageView.setImageColor(color: UIColor.red)
+                imageView.draw(CGRect(x: 0, y: 0, width: 50, height: 50))
+                let newerImage = UIGraphicsGetImageFromCurrentImageContext()
+                     UIGraphicsEndImageContext()
+                myTVC.imageLabel?.image = newerImage
+                
             } else {
                 myTVC.imageLabel?.image = UIImage(named: "noImagePlaceholder")
             }
@@ -162,4 +174,13 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     */
 
+}
+
+extension UIImageView {
+  func setImageColor(color: UIColor) {
+    let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
+    self.image = templateImage
+    self.tintColor = color
+    self.backgroundColor = .none
+  }
 }
