@@ -125,7 +125,16 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
             
             print("Index path row = \(indexPath.row)")
             print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
+            //If user gets to the buttom of table get next page from events.
             if indexPath.row == self.eventMonitor.events.count - 1 {
+                
+                //Spinner indicator of loading more events.
+                let spinner = UIActivityIndicatorView(style: .medium)
+                spinner.startAnimating()
+                spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+                self.tableView.tableFooterView = spinner
+                self.tableView.tableFooterView?.isHidden = false
+                
                 print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
                 eventMonitor.page += 1
                 let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
