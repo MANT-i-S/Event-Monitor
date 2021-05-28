@@ -31,20 +31,25 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
+    private var lastTextDidChange = Date().timeIntervalSinceReferenceDate
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        let secondsFromLastTextDidChange = Date().timeIntervalSinceReferenceDate - lastTextDidChange
         print("Text changed")
-        let searchRequest = searchText.replacingOccurrences(of: " ", with: "+")
-        eventMonitor.searchRequest = "q=" + searchRequest
-        eventMonitor.page = 1
-        eventMonitor.events.removeAll()
-        print("Text from searchbar is \(searchText)")
-        let textBackgroundQueue = DispatchQueue.global(qos: .userInteractive)
+        if secondsFromLastTextDidChange > 1.0 {
+            let searchRequest = searchText.replacingOccurrences(of: " ", with: "+")
+            eventMonitor.searchRequest = "q=" + searchRequest
+            eventMonitor.page = 1
+            eventMonitor.clearEventsArray()
+            print("Text from searchbar is \(searchText)")
+            let textBackgroundQueue = DispatchQueue.global(qos: .userInteractive)
             textBackgroundQueue.async {
                 self.eventMonitor.getData()
                 DispatchQueue.main.async {
                     self.eventsTableView.tableView.reloadData()
                 }
             }
+        }
     }
     
     @IBOutlet weak var searchBar: UISearchBar!

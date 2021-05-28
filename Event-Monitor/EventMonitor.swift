@@ -18,12 +18,18 @@ class EventMonitor {
     var page = 1
     var searchRequest = ""
     
+    func clearEventsArray() {
+        events.removeAll()
+    }
+    
     func getData() {
         let urlString = urlBase + urlEvents + "?" + clientID + "&" + clientSecret + "&" + searchRequest + "&" + "page=\(page)"
         
         if let url = URL(string: urlString),
            let data = try? Data(contentsOf: url) {
             parse(json: data)
+        } else {
+            assert(true, "EventMonitor.getData() coudn't get content of URL - \(urlString)")
         }
     }
     

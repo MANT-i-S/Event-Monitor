@@ -16,18 +16,13 @@ class EventTableViewCell: UITableViewCell {
     
 }
 
-class EventsTableViewController: UITableViewController, UISearchBarDelegate {
+class EventsTableViewController: UITableViewController {
 
     var eventMonitor = EventMonitor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         eventMonitor.getData()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,11 +76,12 @@ class EventsTableViewController: UITableViewController, UISearchBarDelegate {
             
             var displayImage = UIImage(named: "noImagePlaceholder")
             
-            if let imageData = eventMonitor.events[indexPath.row].image {
+            if let imageData = eventMonitor.events[indexPath.row].imageData {
                 if let newImage = UIImage(data: imageData) {
                     displayImage = newImage
                 }
             }
+            
             if eventMonitor.events[indexPath.row].isFavorite == true {
                 let heartConfig = UIImage.SymbolConfiguration(pointSize: 45, weight: .black)
                 if let systemHeartImage = UIImage(systemName: "heart.fill", withConfiguration: heartConfig)?.withTintColor(UIColor.red) {

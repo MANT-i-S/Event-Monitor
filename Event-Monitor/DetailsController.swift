@@ -21,11 +21,15 @@ class DetailsViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
         detailsTitleLabel.text = eventMonitor.events[eventIndex].title
-        if let imageData = eventMonitor.events[eventIndex].image {
-            detailsImageLabel.image = UIImage(data: imageData)!
-        } else {
-            detailsImageLabel.image = UIImage(named: "noImagePlaceholder")!
+        
+        var displayImage = UIImage(named: "noImagePlaceholder")
+        if let imageData = eventMonitor.events[eventIndex].imageData {
+            if let newImage = UIImage(data: imageData) {
+                displayImage = newImage
+            }
         }
+        detailsImageLabel.image = displayImage
+        
         detailsDateTimeLabel.text = eventMonitor.events[eventIndex].displayDateTime
         detailsLocationLabel.text = eventMonitor.events[eventIndex].displayLocation
         if eventMonitor.events[eventIndex].isFavorite == true {

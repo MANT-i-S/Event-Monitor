@@ -14,8 +14,17 @@ struct Event {
     var displayLocation: String
     var displayDateTime: String?
     var dateTime: Date?
-    var image: Data?
+    var imageData: Data?
     var isFavorite = false
+    
+    func getImageData(from url: URL?) -> Data? {
+        if let imageURL = url,
+           let imageData = try? Data(contentsOf: imageURL) {
+            return imageData
+        } else {
+            return nil
+        }
+    }
     
     init? (dictionary event: [String: Any]) {
         guard let id = event["id"] as? Int,
@@ -42,24 +51,23 @@ struct Event {
             self.dateTime = nil
             self.displayDateTime = nil
         }
-        
         //Go through performers and use first existing image.
-        for performer in performers {
-            if let performerDict = performer as? [String: Any],
-               let imageStr = performerDict["image"] as? String? {
-            if imageStr != nil {
-                self.image = try? Data(contentsOf: URL(string: imageStr!)!)
-                break
-                }
-            }
-        }
-        
         self.id = id
         self.title = title
         self.displayLocation = location
         let isTrue = UserDefaults.standard.bool(forKey: String(id))
         if isTrue == true {
             self.isFavorite = true
+        }
+        
+        for performer in performers {
+            if let performerDict = performer as? [String: Any],
+               let imageStr = performerDict["image"] as? String? {
+            if imageStr != nil {
+                self.imageData = getImageData(from: URL(string: imageStr!))
+                break
+                }
+            }
         }
     }
 }
