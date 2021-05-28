@@ -64,10 +64,6 @@ class EventsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
-        if eventMonitor.events.isEmpty {
-            self.eventMonitor.getData()
-        }
-        
         if let myTVC = cell as? EventTableViewCell {
             myTVC.titleLabel?.text = eventMonitor.events[indexPath.row].title
             myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
@@ -91,15 +87,15 @@ class EventsTableViewController: UITableViewController {
             myTVC.imageLabel?.image = displayImage
             
             //If user gets to the buttom of table get next page from events.
-            if indexPath.row == self.eventMonitor.events.count - 1 && self.eventMonitor.events.count >= 10 {
-                print("indexPath.row = \(indexPath.row)")
-                print("eventMonitor.events.count - 1 = \(eventMonitor.events.count - 1)")
+            if indexPath.row == self.eventMonitor.events.count - 1 && indexPath.row >= 9 {
+                
                 //Spinner indicator - loading more events.
                 let spinner = UIActivityIndicatorView(style: .medium)
                 spinner.startAnimating()
                 spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(45))
                 self.tableView.tableFooterView = spinner
                 self.tableView.tableFooterView?.isHidden = false
+                
                 eventMonitor.page += 1
                 let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
                 textBackgroundQueue.async {

@@ -34,10 +34,11 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
     var searchTask: DispatchWorkItem?
     //private var lastTextDidChange = Date().timeIntervalSinceReferenceDate
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //Check if another search in process
         searchTask?.cancel()
         
-        print("eventMonitor.page = \(eventMonitor.page)")
+        //Get rid of any extra symbols and whitespaces in searchText and add '+' sign between words.
         let searchRequest = searchText
             .trimmingCharacters(in: .whitespaces)
             .replacingOccurrences(of: "[^A-Za-z0-9 ]+",
@@ -47,22 +48,31 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
             .joined(separator: " ")
             .replacingOccurrences(of: " ", with: "+")
         
+        //Save new search request, go to page 1 of events, get rif of any previous events
         eventMonitor.searchRequest = searchRequest.isEmpty ? "" : "q=" + searchRequest
         eventMonitor.page = 1
         eventMonitor.clearEventsArray()
-        print("Text from searchbar is '\(searchText)'")
-        print("eventMonitor.searchRequest is '\(eventMonitor.searchRequest)'")
+        
+        //Create a new search task
         let task = DispatchWorkItem { [weak self] in
             let textBackgroundQueue = DispatchQueue.global(qos: .userInteractive)
             textBackgroundQueue.async {
                 self?.eventMonitor.getData()
                 DispatchQueue.main.async {
+                    if ((self?.eventMonitor.events.isEmpty) == true) {
+                        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 45))
+                        label.textAlignment = .center
+                        label.text = "No results match your search criteria"
+                        self?.eventsTableView.tableView.tableFooterView? = label
+                    }
                     self?.eventsTableView.tableView.reloadData()
                 }
             }
         }
+        
         self.searchTask = task
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.50, execute: task)
+        //Execute current task only if task didn't cancel for half a second
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: task)
     }
     
     @IBOutlet weak var searchBar: UISearchBar!
