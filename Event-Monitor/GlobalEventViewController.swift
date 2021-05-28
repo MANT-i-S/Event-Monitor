@@ -35,13 +35,21 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
         let secondsFromLastTextDidChange = Date().timeIntervalSinceReferenceDate - lastTextDidChange
-        print("Text changed")
-        if secondsFromLastTextDidChange > 1.0 {
-            let searchRequest = searchText.replacingOccurrences(of: " ", with: "+")
-            eventMonitor.searchRequest = "q=" + searchRequest
+        
+        print("eventMonitor.page = \(eventMonitor.page)")
+        var searchRequest = searchText.trimmingCharacters(in: .whitespaces)
+        searchRequest = searchRequest.replacingOccurrences(of: "[^A-Za-z0-9 ]+",
+                                                           with: "",
+                                                           options: [.regularExpression])
+        searchRequest = searchRequest.split(separator: " ").joined(separator: " ")
+        searchRequest = searchRequest.replacingOccurrences(of: " ", with: "+")
+        searchRequest = searchRequest.isEmpty ? "" : "q=" + searchRequest
+        if secondsFromLastTextDidChange > 1.0 && searchRequest != eventMonitor.searchRequest {
+            eventMonitor.searchRequest = searchRequest
             eventMonitor.page = 1
             eventMonitor.clearEventsArray()
-            print("Text from searchbar is \(searchText)")
+            print("Text from searchbar is '\(searchText)'")
+            print("eventMonitor.searchRequest is '\(eventMonitor.searchRequest)'")
             let textBackgroundQueue = DispatchQueue.global(qos: .userInteractive)
             textBackgroundQueue.async {
                 self.eventMonitor.getData()

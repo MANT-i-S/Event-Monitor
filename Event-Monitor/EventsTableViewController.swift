@@ -17,7 +17,7 @@ class EventTableViewCell: UITableViewCell {
 }
 
 class EventsTableViewController: UITableViewController {
-
+    
     var eventMonitor = EventMonitor()
     
     override func viewDidLoad() {
@@ -29,11 +29,11 @@ class EventsTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         self.tableView.reloadData()
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return eventMonitor.events.count
     }
@@ -69,7 +69,6 @@ class EventsTableViewController: UITableViewController {
         }
         
         if let myTVC = cell as? EventTableViewCell {
-            print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
             myTVC.titleLabel?.text = eventMonitor.events[indexPath.row].title
             myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
             myTVC.dateTimeLabel?.text = eventMonitor.events[indexPath.row].displayDateTime
@@ -91,27 +90,24 @@ class EventsTableViewController: UITableViewController {
             
             myTVC.imageLabel?.image = displayImage
             
-            print("Index path row = \(indexPath.row)")
-            print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
             //If user gets to the buttom of table get next page from events.
-            if indexPath.row == self.eventMonitor.events.count - 1 {
-                
-                //Spinner indicator of loading more events.
+            if indexPath.row == self.eventMonitor.events.count - 1 && indexPath.row >= 9 {
+                print("indexPath.row = \(indexPath.row)")
+                print("eventMonitor.events.count - 1 = \(eventMonitor.events.count - 1)")
+                //Spinner indicator - loading more events.
                 let spinner = UIActivityIndicatorView(style: .medium)
                 spinner.startAnimating()
-                spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+                spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(45))
                 self.tableView.tableFooterView = spinner
                 self.tableView.tableFooterView?.isHidden = false
-                
-                print("self.eventMonitor.events.count = \(self.eventMonitor.events.count)")
                 eventMonitor.page += 1
                 let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)
-                    textBackgroundQueue.async {
-                        self.eventMonitor.getData()
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
+                textBackgroundQueue.async {
+                    self.eventMonitor.getData()
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
                     }
+                }
             }
         }
         return cell

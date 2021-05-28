@@ -19,7 +19,9 @@ class EventMonitor {
     var searchRequest = ""
     
     func clearEventsArray() {
-        events.removeAll()
+        if events.isEmpty == false {
+            events.removeAll()
+        }
     }
     
     func getData() {
@@ -37,13 +39,10 @@ class EventMonitor {
         let newJson = try? JSONSerialization.jsonObject(with: json, options: [])
         if let eventDictionary = newJson as? [String: Any],
            let eventsArray = eventDictionary["events"] as? [Any] {
-            print("Current number of events = \(eventsArray.count)")
             for event in eventsArray {
                 if let eventDict = event as? [String:Any],
                    let tempEvent = Event(dictionary: eventDict) {
                     events.append(tempEvent)
-                    print("Current event id = \(tempEvent.id)")
-                    print(tempEvent)
                 }
             }
         }
