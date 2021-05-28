@@ -46,6 +46,7 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
             .split(separator: " ")
             .joined(separator: " ")
             .replacingOccurrences(of: " ", with: "+")
+        
         eventMonitor.searchRequest = searchRequest.isEmpty ? "" : "q=" + searchRequest
         eventMonitor.page = 1
         eventMonitor.clearEventsArray()
