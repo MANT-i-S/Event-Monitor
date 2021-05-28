@@ -91,7 +91,7 @@ class EventsTableViewController: UITableViewController {
             myTVC.imageLabel?.image = displayImage
             
             //If user gets to the buttom of table get next page from events.
-            if indexPath.row == self.eventMonitor.events.count - 1 && indexPath.row >= 9 {
+            if indexPath.row == self.eventMonitor.events.count - 1 {
                 print("indexPath.row = \(indexPath.row)")
                 print("eventMonitor.events.count - 1 = \(eventMonitor.events.count - 1)")
                 //Spinner indicator - loading more events.
