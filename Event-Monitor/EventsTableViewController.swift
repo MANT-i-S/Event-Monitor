@@ -64,7 +64,8 @@ class EventsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath)
         
-        if let myTVC = cell as? EventTableViewCell {
+        if let myTVC = cell as? EventTableViewCell,
+           indexPath.row <= eventMonitor.events.count - 1 {
             myTVC.titleLabel?.text = eventMonitor.events[indexPath.row].title
             myTVC.locationLabel?.text = eventMonitor.events[indexPath.row].displayLocation
             myTVC.dateTimeLabel?.text = eventMonitor.events[indexPath.row].displayDateTime
@@ -94,7 +95,8 @@ class EventsTableViewController: UITableViewController {
                 spinner.startAnimating()
                 spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(45))
                 self.tableView.tableFooterView = spinner
-                self.tableView.tableFooterView?.isHidden = false
+                //If totalevents amount more then current page * 10(events loading per page) then hide activity monitor spinner
+                self.tableView.tableFooterView?.isHidden = eventMonitor.totalEventsWithThisRequest < eventMonitor.page * 10
                 
                 eventMonitor.page += 1
                 let textBackgroundQueue = DispatchQueue.global(qos: .userInitiated)

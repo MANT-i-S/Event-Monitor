@@ -17,6 +17,7 @@ class EventMonitor {
     var events = [Event]()
     var page = 1
     var searchRequest = ""
+    var totalEventsWithThisRequest = 0
     
     func clearEventsArray() {
         if events.isEmpty == false {
@@ -39,6 +40,9 @@ class EventMonitor {
         let newJson = try? JSONSerialization.jsonObject(with: json, options: [])
         if let eventDictionary = newJson as? [String: Any],
            let eventsArray = eventDictionary["events"] as? [Any] {
+            if let metaDict = eventDictionary["meta"] as? [String: Any]{
+                totalEventsWithThisRequest = metaDict["total"] as? Int ?? 0
+            }
             for event in eventsArray {
                 if let eventDict = event as? [String:Any],
                    let tempEvent = Event(dictionary: eventDict) {
