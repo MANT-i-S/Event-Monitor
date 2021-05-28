@@ -34,7 +34,7 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
     private var lastTextDidChange = Date().timeIntervalSinceReferenceDate
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        let secondsFromLastTextDidChange = Date().timeIntervalSinceReferenceDate - lastTextDidChange
+        let secondsFromLastTextDidChange = Date().timeIntervalSinceReferenceDate - lastTextDidChange //TODO this is smart but should be way to stop recent searchbar action if its called second time. Maybe stop background activity as soon as getting in. Try it tommorow.
         
         print("eventMonitor.page = \(eventMonitor.page)")
         var searchRequest = searchText.trimmingCharacters(in: .whitespaces)
