@@ -59,12 +59,16 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
             textBackgroundQueue.async {
                 self?.eventMonitor.getData()
                 DispatchQueue.main.async {
-                    if ((self?.eventMonitor.events.isEmpty) == true) {
-                        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 45))
-                        label.textAlignment = .center
-                        label.text = "No results match your search criteria"
-                        self?.eventsTableView.tableView.tableFooterView? = label
-                    }
+                    
+                    //Create label for table footer
+                    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 45))
+                    label.textAlignment = .center
+                    label.text = "No results match your search criteria"
+                    self?.eventsTableView.tableView.tableFooterView? = label
+                    
+                    //Show label for table footer only if no events found
+                    self?.eventsTableView.tableView.tableFooterView?.isHidden = self?.eventMonitor.totalEventsWithThisRequest != 0
+                    
                     self?.eventsTableView.tableView.reloadData()
                 }
             }
@@ -88,15 +92,4 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
         // Show the navigation bar on other view controllers
        self.navigationController?.isNavigationBarHidden = false;
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
