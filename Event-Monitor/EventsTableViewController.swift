@@ -38,6 +38,7 @@ class EventsTableViewController: UITableViewController {
         return eventMonitor.events.count
     }
     
+    //Pass event monitor reference and selected row to detailsview
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
@@ -53,6 +54,7 @@ class EventsTableViewController: UITableViewController {
         }
     }
     
+    //Draw heart logo on favorite event picture
     private func drawLogoIn(_ image: UIImage, _ logo: UIImage, position: CGPoint) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: image.size)
         return renderer.image { context in
@@ -91,9 +93,11 @@ class EventsTableViewController: UITableViewController {
             if indexPath.row == self.eventMonitor.events.count - 1 && indexPath.row >= 9 {
                 
                 //Spinner indicator - loading more events.
+                
                 let spinner = UIActivityIndicatorView(style: .medium)
                 spinner.startAnimating()
                 spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(45))
+                
                 self.tableView.tableFooterView = spinner
                 //If totalevents amount more then current page * 10(events loading per page) then hide activity monitor spinner
                 self.tableView.tableFooterView?.isHidden = eventMonitor.totalEventsWithThisRequest <= eventMonitor.page * 10

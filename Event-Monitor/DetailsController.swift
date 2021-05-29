@@ -28,10 +28,12 @@ class DetailsViewController: UIViewController {
                 displayImage = newImage
             }
         }
+        
         detailsImageLabel.image = displayImage
         
         detailsDateTimeLabel.text = eventMonitor.events[eventIndex].displayDateTime
         detailsLocationLabel.text = eventMonitor.events[eventIndex].displayLocation
+        
         if eventMonitor.events[eventIndex].isFavorite == true {
             self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
             self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)

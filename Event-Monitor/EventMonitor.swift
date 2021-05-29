@@ -25,6 +25,7 @@ class EventMonitor {
         }
     }
     
+    //Put together url and trying to get data from it
     func getData() {
         let urlString = urlBase + urlEvents + "?" + clientID + "&" + clientSecret + "&" + searchRequest + "&" + "page=\(page)"
         
@@ -32,7 +33,7 @@ class EventMonitor {
            let data = try? Data(contentsOf: url) {
             parse(json: data)
         } else {
-            assert(true, "EventMonitor.getData() coudn't get content of URL - \(urlString)")
+            clearEventsArray()
         }
     }
     
