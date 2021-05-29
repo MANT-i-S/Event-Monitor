@@ -17,7 +17,7 @@ struct Event {
     var imageData: Data?
     var isFavorite = false
     
-    func getImageData(from url: URL?) -> Data? {
+    private func getImageData(from url: URL?) -> Data? {
         if let imageURL = url,
            let imageData = try? Data(contentsOf: imageURL) {
             return imageData

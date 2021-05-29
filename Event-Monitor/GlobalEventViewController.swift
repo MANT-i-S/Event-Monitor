@@ -9,13 +9,25 @@ import UIKit
 
 class GlobalEventViewController: UIViewController, UISearchBarDelegate {
 
-    var eventsTableView = EventsTableViewController()
-    var eventMonitor = EventMonitor()
+    private var eventsTableView = EventsTableViewController()
+    private var eventMonitor = EventMonitor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Hide the navigation bar for current view controller
+        self.navigationController?.isNavigationBarHidden = true;
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Show the navigation bar on other view controllers
+       self.navigationController?.isNavigationBarHidden = false;
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -32,7 +44,7 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
     }
     
     //Get rid of any extra symbols and whitespaces in searchText and add '+' sign between words.
-    func webSearchRequestString(from searchText: String) -> String {
+    private func webSearchRequestString(from searchText: String) -> String {
         let searchRequest = searchText
             .trimmingCharacters(in: .whitespaces)
             .replacingOccurrences(of: "[^A-Za-z0-9 ]+",
@@ -44,16 +56,7 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
         return searchRequest
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchTask?.cancel()
-        searchBar.resignFirstResponder()
-        if let searchText = searchBar.text {
-            let searchRequest = webSearchRequestString(from: searchText)
-            processSearchRequest(searchRequestText: searchRequest)
-        }
-    }
-    
-    func processSearchRequest(searchRequestText: String) {
+    private func processSearchRequest(searchRequestText: String) {
         let searchRequest = webSearchRequestString(from: searchRequestText)
         
         //Save new search request, go to page 1 of events, get rif of any previous events
@@ -80,11 +83,10 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
-    var searchTask: DispatchWorkItem?
-    //private var lastTextDidChange = Date().timeIntervalSinceReferenceDate
+    private var searchTask: DispatchWorkItem?
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { //TODO handle keyboard on actual device + remind yourself how to see all MARK and TODO in a project
-        //Check if another search in process
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //Check if another search in process and cancel it
         searchTask?.cancel()
         
         //Create a new search task
@@ -96,18 +98,15 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
         //Execute current task only if task didn't cancel for half a second
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: task)
     }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchTask?.cancel()
+        //Hide keyboard
+        searchBar.resignFirstResponder()
+        if let searchText = searchBar.text {
+            let searchRequest = webSearchRequestString(from: searchText)
+            processSearchRequest(searchRequestText: searchRequest)
+        }
+    }
     
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Hide the navigation bar for current view controller
-        self.navigationController?.isNavigationBarHidden = true;
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // Show the navigation bar on other view controllers
-       self.navigationController?.isNavigationBarHidden = false;
-    }
 }

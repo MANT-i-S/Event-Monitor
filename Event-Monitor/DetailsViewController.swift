@@ -11,16 +11,18 @@ class DetailsViewController: UIViewController {
     
     var eventMonitor = EventMonitor()
     var eventIndex = Int()
+    private var themeColor = UIColor.black
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        themeColor = UITraitCollection.current.userInterfaceStyle == .dark ? .white : .black
         // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
-        detailsTitleLabel.text = eventMonitor.events[eventIndex].title
+        self.navigationItem.rightBarButtonItem?.tintColor = themeColor
         
         var displayImage = UIImage(named: "noImagePlaceholder")
         if let imageData = eventMonitor.events[eventIndex].imageData {
@@ -36,7 +38,7 @@ class DetailsViewController: UIViewController {
         
         if eventMonitor.events[eventIndex].isFavorite == true {
             self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
-            self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
         }
     }
     
@@ -48,12 +50,12 @@ class DetailsViewController: UIViewController {
     @IBAction func favoriteButtonTouch(_ sender: UIBarButtonItem) {
         if eventMonitor.events[eventIndex].isFavorite == true {
             self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
-            self.navigationItem.rightBarButtonItem?.tintColor = .none
+            self.navigationItem.rightBarButtonItem?.tintColor = themeColor
             UserDefaults.standard.removeObject(forKey: String(eventMonitor.events[eventIndex].id))
             eventMonitor.events[eventIndex].isFavorite = false
         } else {
             self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
-            self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor.red
             UserDefaults.standard.setValue(true, forKey: String(eventMonitor.events[eventIndex].id))
             eventMonitor.events[eventIndex].isFavorite = true
         }
