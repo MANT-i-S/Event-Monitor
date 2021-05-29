@@ -31,14 +31,8 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
-    var searchTask: DispatchWorkItem?
-    //private var lastTextDidChange = Date().timeIntervalSinceReferenceDate
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //Check if another search in process
-        searchTask?.cancel()
-        
-        //Get rid of any extra symbols and whitespaces in searchText and add '+' sign between words.
+    //Get rid of any extra symbols and whitespaces in searchText and add '+' sign between words.
+    func webSearchRequestString(from searchText: String) -> String {
         let searchRequest = searchText
             .trimmingCharacters(in: .whitespaces)
             .replacingOccurrences(of: "[^A-Za-z0-9 ]+",
@@ -47,31 +41,55 @@ class GlobalEventViewController: UIViewController, UISearchBarDelegate {
             .split(separator: " ")
             .joined(separator: " ")
             .replacingOccurrences(of: " ", with: "+")
+        return searchRequest
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchTask?.cancel()
+        searchBar.resignFirstResponder()
+        if let searchText = searchBar.text {
+            let searchRequest = webSearchRequestString(from: searchText)
+            processSearchRequest(searchRequestText: searchRequest)
+        }
+    }
+    
+    func processSearchRequest(searchRequestText: String) {
+        let searchRequest = webSearchRequestString(from: searchRequestText)
         
         //Save new search request, go to page 1 of events, get rif of any previous events
         eventMonitor.searchRequest = searchRequest.isEmpty ? "" : "q=" + searchRequest
         eventMonitor.page = 1
         eventMonitor.clearEventsArray()
         
+        let textBackgroundQueue = DispatchQueue.global(qos: .userInteractive)
+        textBackgroundQueue.async {
+            self.eventMonitor.getData()
+            DispatchQueue.main.async {
+                
+                //Create label for table footer
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 45))
+                label.textAlignment = .center
+                label.text = "No results match your search criteria"
+                self.eventsTableView.tableView.tableFooterView? = label
+                
+                //Show label for table footer only if no events found
+                self.eventsTableView.tableView.tableFooterView?.isHidden = self.eventMonitor.totalEventsWithThisRequest != 0
+                
+                self.eventsTableView.tableView.reloadData()
+            }
+        }
+    }
+    
+    var searchTask: DispatchWorkItem?
+    //private var lastTextDidChange = Date().timeIntervalSinceReferenceDate
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { //TODO handle keyboard on actual device + remind yourself how to see all MARK and TODO in a project
+        //Check if another search in process
+        searchTask?.cancel()
+        
         //Create a new search task
         let task = DispatchWorkItem { [weak self] in
-            let textBackgroundQueue = DispatchQueue.global(qos: .userInteractive)
-            textBackgroundQueue.async {
-                self?.eventMonitor.getData()
-                DispatchQueue.main.async {
-                    
-                    //Create label for table footer
-                    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 45))
-                    label.textAlignment = .center
-                    label.text = "No results match your search criteria"
-                    self?.eventsTableView.tableView.tableFooterView? = label
-                    
-                    //Show label for table footer only if no events found
-                    self?.eventsTableView.tableView.tableFooterView?.isHidden = self?.eventMonitor.totalEventsWithThisRequest != 0
-                    
-                    self?.eventsTableView.tableView.reloadData()
-                }
-            }
+            self?.processSearchRequest(searchRequestText: searchText)
         }
         
         self.searchTask = task
