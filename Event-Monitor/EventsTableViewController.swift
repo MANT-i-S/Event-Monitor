@@ -88,6 +88,7 @@ class EventsTableViewController: UITableViewController {
             }
             
             myTVC.imageLabel?.image = displayImage
+            myTVC.imageLabel?.layer.cornerRadius = 20.0
             
             //If user gets to the buttom of table get next page from events.
             if indexPath.row == self.eventMonitor.events.count - 1 && indexPath.row >= 9 {

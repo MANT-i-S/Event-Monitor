@@ -10,6 +10,7 @@ import Foundation
 struct Event {
     
     var id: Int
+    var buyTicketsURL: String
     var title: String
     var displayLocation: String
     var displayDateTime: String?
@@ -28,6 +29,7 @@ struct Event {
     
     init? (dictionary event: [String: Any]) {
         guard let id = event["id"] as? Int,
+                    let buyTicketsURL = event["url"] as? String,
                     let title = event["title"] as? String,
                     let dateTimeStr = event["datetime_local"] as? String,
                     let venue = event["venue"] as? [String: Any],
@@ -53,6 +55,7 @@ struct Event {
         }
         //Go through performers and use first existing image.
         self.id = id
+        self.buyTicketsURL = buyTicketsURL
         self.title = title
         self.displayLocation = location
         let isTrue = UserDefaults.standard.bool(forKey: String(id))

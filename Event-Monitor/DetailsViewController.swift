@@ -32,7 +32,7 @@ class DetailsViewController: UIViewController {
         }
         
         detailsImageLabel.image = displayImage
-        
+        detailsTitleLabel.text = eventMonitor.events[eventIndex].title
         detailsDateTimeLabel.text = eventMonitor.events[eventIndex].displayDateTime
         detailsLocationLabel.text = eventMonitor.events[eventIndex].displayLocation
         
@@ -46,6 +46,12 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var detailsImageLabel: UIImageView!
     @IBOutlet weak var detailsDateTimeLabel: UILabel!
     @IBOutlet weak var detailsLocationLabel: UILabel!
+    
+    @IBAction func buyTicketsButton(_ sender: Any) {
+        if let url = URL(string: eventMonitor.events[eventIndex].buyTicketsURL) {
+            UIApplication.shared.open(url)
+        }
+    }
     
     @IBAction func favoriteButtonTouch(_ sender: UIBarButtonItem) {
         if eventMonitor.events[eventIndex].isFavorite == true {
